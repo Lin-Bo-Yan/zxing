@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">zxing_test</string>
+    <string name="app_name">掃描QRcode</string>
+    <string name="scan_qrcode_desc">將掃描框對準QR Code後會自動進行掃描</string>
 </resources>
