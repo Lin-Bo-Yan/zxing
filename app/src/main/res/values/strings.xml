@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">掃描QRcode</string>
     <string name="scan_qrcode_desc">將掃描框對準QR Code後會自動進行掃描</string>
+    <string name="login">登入</string>
 </resources>

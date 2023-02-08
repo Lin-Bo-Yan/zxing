@@ -1,36 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login_gradient"
     android:orientation="vertical">
+
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="130dp"
         android:layout_alignParentTop="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
-        <androidx.appcompat.widget.Toolbar
+        android:background="@color/transparent"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:visibility="visible"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:background="@color/colorPrimaryDark"
+            android:layout_height="130dp"
+            android:background="@color/transparent"
             android:contentInsetStart="0dp"
             android:contentInsetLeft="0dp"
-            android:elevation="0dp"
             android:minHeight="44dp"
             app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            app:contentInsetStart="0dp">
 
-            <LinearLayout
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="4dp"
+                    android:text="Lale 企業"
+                    android:textColor="@color/white"
+                    android:textSize="36sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_logo"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center"
+                    android:text="Chat &amp; Work"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_toolbar_left"
                     android:layout_width="44dp"
                     android:layout_height="44dp"
-                    android:layout_gravity="left|center_vertical"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/nav_icon_back_arrow" />
@@ -41,77 +74,59 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
-                    android:ellipsize="end"
                     android:gravity="center"
-                    android:singleLine="true"
                     android:text="@string/app_name"
                     android:textColor="@android:color/white"
                     android:textSize="17sp" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/nav_icon_picture"
-                    android:visibility="gone" />
-
-
-
-
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-
-
-
+            </FrameLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.journeyapps.barcodescanner.DecoratedBarcodeView
-            android:id="@+id/dbv_custom"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:zxing_preview_scaling_strategy="fitXY" />
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/toolbar_layout"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/img_scan_login" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="請點選掃描 QR code 登入按鈕，掃描\n UniPortal 個人設定二維碼登入。"
+            android:textColor="@color/white" />
 
-            <LinearLayout
-                android:layout_marginTop="24dp"
-                android:id="@+id/btn_choose_qrcode"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="48dp"
-                android:layout_marginRight="48dp"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/scan_btn_bg">
+        <Button
+            android:id="@+id/btn_login"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="42dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="42dp"
+            android:background="@drawable/company_form_btn_bg_white"
+            android:focusableInTouchMode="false"
+            android:text="@string/login"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="55dp"
-                    android:layout_marginRight="17dp"
-                    android:src="@drawable/nav_icon_picture"
-                    app:tint="@color/white" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:text="請點選按鈕，開啟掃碼功能" />
+    </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="選擇相簿的中圖片"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-            </LinearLayout>
-        </LinearLayout>
-    </FrameLayout>
-</LinearLayout>
-
+</RelativeLayout>

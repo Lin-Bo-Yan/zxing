@@ -10,4 +10,5 @@
 
     <color name="colorPrimaryDark">#08C7D0</color>
     <color name="colorExploreBlue">#2496BA</color>
+    <color name="transparent">#00000000</color>
 </resources>
