@@ -7,9 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+
+
 
 public class MainActivity extends MainAppCompatActivity {
-
+    public enum ScanCaptureType{
+        Json
+    }
     Button btn_login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +30,10 @@ public class MainActivity extends MainAppCompatActivity {
                     public void Callback(ActivityResult activityReturn) {
                         if(activityReturn.getResultCode() == Activity.RESULT_OK){
                             String SCAN_QRCODE = activityReturn.getData().getStringExtra("SCAN_QRCODE");
-                            StringUtils.HaoLog("joe= "+"SCAN_QRCODE "+SCAN_QRCODE);
+                            if(SCAN_QRCODE != null){
+                                //驗證
+                                Loginback(MainActivity.this,SCAN_QRCODE);
+                            }
                         }
                     }
                 };
@@ -34,7 +42,20 @@ public class MainActivity extends MainAppCompatActivity {
         });
     }
 
-    public enum ScanCaptureType{
-        Json
+    private void Loginback(MainAppCompatActivity activity,final String resultData){
+        // resultData沒有設值，幾乎是不可能，因為解析json時就會被攔下了
+        StringUtils.HaoLog("驗證= "+resultData);
+        if(resultData == null){
+            DialogUtils.showDialogMessage(activity,"QR已經過期，請重新登入");
+            return;
+        }
+        //解析json
+        ResultData result = new Gson().fromJson(resultData,ResultData.class);
+        if ("af_token".equals(result.af_token) && "qrcode_info_url".equals(result.qrcode_info_url)) {
+//            connection_server_get_httpReturn(activity,result);
+        } else {
+            DialogUtils.showDialogMessage(activity, "登入失敗，您的QRCode已失效");
+        }
+
     }
 }
