@@ -1,29 +1,14 @@
 package com.example.zxing_test;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.result.ActivityResult;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.zxing.ResultPoint;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.journeyapps.barcodescanner.BarcodeCallback;
-import com.journeyapps.barcodescanner.BarcodeResult;
-import com.journeyapps.barcodescanner.CaptureManager;
-import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
-
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
-
-    public CallbackUtils.ActivityReturn activityReturn;
-
+public class MainActivity extends MainAppCompatActivity {
 
     Button btn_login;
     @Override
@@ -37,22 +22,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 activityReturn = new CallbackUtils.ActivityReturn() {
                     @Override
-                    public void Callback(CallbackUtils.ActivityReturn activityReturn) {
-
+                    public void Callback(ActivityResult activityReturn) {
+                        if(activityReturn.getResultCode() == Activity.RESULT_OK){
+                            String SCAN_QRCODE = activityReturn.getData().getStringExtra("SCAN_QRCODE");
+                            StringUtils.HaoLog("joe= "+"SCAN_QRCODE "+SCAN_QRCODE);
+                        }
                     }
                 };
-
-                ActivityUtils.gotoQRcode(MainActivity.this);
+                ActivityUtils.gotoQRcode(MainActivity.this,ScanCaptureType.Json,resultLauncher);
             }
         });
-
-
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        StringUtils.HaoLog("joe"+requestCode);
+    public enum ScanCaptureType{
+        Json
     }
 }
