@@ -1,4 +1,4 @@
-package com.example.zxing_test;
+package com.example.zxing_test.tools;
 
 import android.app.Activity;
 import android.app.AlertDialog;

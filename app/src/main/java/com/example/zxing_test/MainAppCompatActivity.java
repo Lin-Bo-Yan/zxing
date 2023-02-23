@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.zxing_test.tools.CallbackUtils;
+import com.example.zxing_test.tools.StringUtils;
+
 public class MainAppCompatActivity extends AppCompatActivity {
 
     public CallbackUtils.ActivityReturn activityReturn;

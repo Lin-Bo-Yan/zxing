@@ -1,10 +1,12 @@
-package com.example.zxing_test;
+package com.example.zxing_test.tools;
 
 import android.app.Activity;
 import android.content.Intent;
 
 import androidx.activity.result.ActivityResultLauncher;
 
+import com.example.zxing_test.MainActivity;
+import com.example.zxing_test.ScanActvity;
 import com.google.zxing.integration.android.IntentIntegrator;
 
 public class ActivityUtils {

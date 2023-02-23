@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "595265454276",
+    "project_id": "zxing-e2231",
+    "storage_bucket": "zxing-e2231.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595265454276:android:057a236863b89dade54991",
+        "android_client_info": {
+          "package_name": "com.example.zxing_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595265454276-v0qnl7gbe83rbg8fpe44bbotsoa6dip1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAeIsghqPH63YEz8BuuYvJs5AJuAeQVQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "595265454276-v0qnl7gbe83rbg8fpe44bbotsoa6dip1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

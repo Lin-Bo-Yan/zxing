@@ -1,4 +1,4 @@
-package com.example.zxing_test;
+package com.example.zxing_test.tools;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,6 +9,8 @@ import android.graphics.Paint;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
+
+import com.example.zxing_test.BuildConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
