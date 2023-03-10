@@ -4,6 +4,7 @@ import com.example.zxing_test.model.user.ExternalServerSetting;
 import com.example.zxing_test.model.user.UserMin;
 import com.example.zxing_test.tools.phone.AllData;
 
+    // 測試帳號
 public class EimUserData {
     public boolean isLaleAppEim = false;
     public boolean isLaleAppWork = false;
@@ -35,7 +36,6 @@ public class EimUserData {
         AllData.setMainServer(lale_server);
         if (lale_external_server_info != null) {
             userMin.externalServerSetting = new ExternalServerSetting();
-
             userMin.externalServerSetting.jitsiServerUrl = lale_external_server_info.jitsiServerUrl;
             userMin.externalServerSetting.messageServerUrl = lale_external_server_info.messageServerUrl;
             userMin.externalServerSetting.mqttUrl = lale_external_server_info.mqttUrl;

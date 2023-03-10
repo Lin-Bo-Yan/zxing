@@ -29,7 +29,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class ScanActvity extends AppCompatActivity {
-    MainActivity.ScanCaptureType scanCaptureType = null;
+    EimLoginActivity.ScanCaptureType scanCaptureType = null;
     private final BarcodeCallback barcodeCallback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {
@@ -52,7 +52,7 @@ public class ScanActvity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_actvity);
-        scanCaptureType = (MainActivity.ScanCaptureType) getIntent().getExtras().get("ScanCaptureType");
+        scanCaptureType = (EimLoginActivity.ScanCaptureType) getIntent().getExtras().get("ScanCaptureType");
 
 
         String permission_camera = Manifest.permission.CAMERA;

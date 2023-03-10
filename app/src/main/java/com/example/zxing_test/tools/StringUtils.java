@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.example.zxing_test.BuildConfig;
+import com.example.zxing_test.model.HttpReturn;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -370,6 +371,10 @@ if(stes.length > showC)
 
             }
         }
+    }
+
+    static public void HaoLog(String value, HttpReturn data) {
+        HaoLog(value + " httpReturn " + data.status + " " + data.msg + " " + data.data, 5);
     }
 
     static public void HaoLog(String data) {

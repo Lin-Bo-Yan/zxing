@@ -3,25 +3,31 @@ package com.example.zxing_test;
 import androidx.activity.result.ActivityResult;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.zxing_test.model.HttpAfReturn;
+import com.example.zxing_test.model.HttpReturn;
 import com.example.zxing_test.model.eim.EimUserData;
+import com.example.zxing_test.model.user.UserControlCenter;
+import com.example.zxing_test.model.user.UserMin;
 import com.example.zxing_test.tools.ActivityUtils;
 import com.example.zxing_test.tools.CallbackUtils;
 import com.example.zxing_test.tools.DialogUtils;
 import com.example.zxing_test.tools.StringUtils;
 import com.example.zxing_test.tools.cloud.api.CloudUtils;
+import com.example.zxing_test.tools.phone.AllData;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class MainActivity extends MainAppCompatActivity {
+public class EimLoginActivity extends MainAppCompatActivity {
     public enum ScanCaptureType{
         Json
     }
@@ -42,12 +48,12 @@ public class MainActivity extends MainAppCompatActivity {
                             String SCAN_QRCODE = activityReturn.getData().getStringExtra("SCAN_QRCODE");
                             if(SCAN_QRCODE != null){
                                 //驗證
-                                Loginback(MainActivity.this,SCAN_QRCODE);
+                                Loginback(EimLoginActivity.this,SCAN_QRCODE);
                             }
                         }
                     }
                 };
-                ActivityUtils.gotoQRcode(MainActivity.this,ScanCaptureType.Json,resultLauncher);
+                ActivityUtils.gotoQRcode(EimLoginActivity.this,ScanCaptureType.Json,resultLauncher);
             }
         });
     }
@@ -96,22 +102,75 @@ public class MainActivity extends MainAppCompatActivity {
         if(httpReturn.success){
             String eimUserDataString = new Gson().toJson(httpReturn.data);
             EimUserData eimUserData = new Gson().fromJson(eimUserDataString, EimUserData.class);
-
+//            {
+//                UserMin userMin = eimUserData.getUserMin();
+//                UserControlCenter.setLogin(userMin);
+//                UserControlCenter.updateUserMinInfo(userMin);
+//            }
             if(eimUserData.isLaleAppEim){
-                StringUtils.HaoLog("登入 "+"成功");
-
+                String thirdPartyIdentifier = eimUserData.af_mem_id;
+                String androidId = Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID);
+                HttpReturn httpReturn2 = CloudUtils.iCloudUtils.loginSimpleThirdParty(thirdPartyIdentifier,androidId);
+                if(httpReturn2.status == 200){
+                    String userMinString = new Gson().toJson(httpReturn2.data);
+                    UserMin userMin = new Gson().fromJson(userMinString, UserMin.class);
+                    StringUtils.HaoLog("httpReturn2.data=" + eimUserData);
+                    userMin.eimUserData = eimUserData;
+                    userMin.eimUserData.lale_token = userMin.token;
+                    userMin.eimUserData.refresh_token = userMin.refreshToken;
+                    UserControlCenter.setLogin(userMin);
+                    UserControlCenter.updateUserMinInfo(userMin);
+                    FirebasePusher_test_account(activity);
+                }else {
+                    StringUtils.HaoLog("登入 "+"失敗");
+                }
 
 
             }else if ( eimUserData.isLaleAppWork == true) {
-                    /*
-                    這段程式碼用於註冊FCM推播服務方式，使用getInstance()方法取得Firebase 實例 ID成功後會獲得註冊token
-                    接著呼叫setAfPusher方法，向後端伺服器註冊 AF 推播服務
-                    */
+                FirebasePusher_AF_push_registration();
             }
         }else {
             StringUtils.HaoLog("登入"+" 失敗，您的QRCode已失效");
         }
     }
 
+    public static void FirebasePusher_test_account(MainAppCompatActivity activity){
+        StringUtils.HaoLog("登入 測試帳號");
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AllData.context);
+        String deviceToken = "f7_wBFToQGeDOz-fcoDVBH:APA91bHE6-b2QS1AE5St0gZkVz16ZXGqA3BswJFmj_0gsUpxkUv9tR-569XvJ0Gd29VyJc02RuRrPIzvOh8GTdf8T4NMIw0eW-a1CL_CUm1glc1bb64hxubEV1iWnF5mcy6wEiW8SCyv";
+        HttpReturn pu;
+        new Thread(new Runnable() {
+            HttpReturn pu;
+            @Override
+            public void run() {
+                try{
+                    JSONObject UserIds = new JSONObject(pref.getString("UserIds", "{}"));
+                    StringUtils.HaoLog("UserIds=" + UserIds.length());
+                    if(UserIds.length() <= 1){
+                        String userId = UserControlCenter.getUserMinInfo().userId;
+                        String uuid = Settings.Secure.getString(activity.getContentResolver(),Settings.Secure.ANDROID_ID);
+                        pu = CloudUtils.iCloudUtils.setPusher(userId,deviceToken,uuid);
+                    }else {
+                        String userId = UserControlCenter.getUserMinInfo().userId;
+                        String uuid = Settings.Secure.getString(activity.getContentResolver(),Settings.Secure.ANDROID_ID);
+                        pu = CloudUtils.iCloudUtils.UserPushFunction(userId,uuid);
+                    }
+                    StringUtils.HaoLog("setPusher= " + pu);
+                }catch (JSONException e){e.printStackTrace();}
 
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        activity.finish();
+                    }
+                });
+            }
+        }).start();
+    }
+
+
+    public static void FirebasePusher_AF_push_registration(){
+        //CloudUtils.iCloudUtils.setAfPusher();
+        StringUtils.HaoLog("登入 客戶帳號 ");
+    }
 }
